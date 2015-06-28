@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title> Election</title>
+
+	<!-- Styles -->
+	<link rel="stylesheet" type="text/css" href="css/reset.css">
+	<link rel="stylesheet" type="text/css" href="css/election.css">
+	
+	<!-- JavaScript -->
+	<script src="http://code.jquery.com/jquery-1.11.3.min.js"></script> <!--change to local copy?-->
+	<script type="text/javascript" src="js/election.js"></script>
+
+
+</head>
+<body>
+	<div class="wrapper">
+
+
+	<header>
+	<h1>Electoral Candidates - 2015</h1>
+	<p>Canada's 42nd Federal Election will be held on Monday, October 19, 2015. There are 308 seats in the House of Commons to be filled, and candidates are now popping up across the country to throw their hat in the ring. Check out some stats and see who's making a bid so far: </p>
+
+	<button id="btn-party">View all electoral candidates</button>
+
+	<button id="btn-district">View candidates in my district</button>
+	</header>
+
+
+
+<!--Results boxes-->	
+	<div class="stats">
+		<div class="header"><h1>Statistics Summary</h1></div>
+		<div class="infographic">
+			<p>Total number of electoral candidates: </p>
+			<p>Male candidates: </p>
+			<p>Female candidates: </p>
+			<p>Green party candidates: </p>
+		</div>
+	</div>
+
+	<div class="candidate">
+		<div class="header-cons"><h1>Conservative Candidates</h1></div>
+		<div class="content">Actual list will appear here
+		<ul id="list-cons"></ul>
+		</div>
+	</div>
+
+	<div class="candidate">
+		<div class="header-libs"><h1>Conservative Candidates</h1></div>
+		<div class="content-test">Actual list will appear here
+		<ul id="list-libs"></ul>
+		</div>
+	</div>
+	
+	</div><!--end wrapper-->
+</body>
+</html>
