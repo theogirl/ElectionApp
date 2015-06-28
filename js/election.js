@@ -14,7 +14,8 @@ $(document).ready(function() {
 	$('#btn-party').click(function(e) {  //listen for submit event
 		e.preventDefault();
 		getData();
-		updateTotal();
+		updateGender();
+		alert('done!');
 
 		//displayInfo();
 	})
@@ -25,7 +26,7 @@ function getData() {
 
 var url = 'https://represent.opennorth.ca/candidates/?callback=?';
 var params = {
-	  limit: 1000//use limit=1000 to get full list
+	  limit: 20//use limit=1000 to get full list
 	};
 
 $.getJSON(url, params, function(data) {
@@ -33,10 +34,14 @@ $.getJSON(url, params, function(data) {
 	if (data.objects && data.objects.length > 0) {
 			myData = data.objects;
 			myStats = data.meta;
+			total = myStats.total_count;
+			$('.infographic p:first-child').append(total);//to update stat for total candidates
 	}
 	else {
 			alert('no data!');
 	}
+
+	console.log(myData);
 
 	$.each(data.objects, function(i, candidates) {
 
@@ -44,12 +49,21 @@ $.getJSON(url, params, function(data) {
 		var name = candidates.name;
 		var personalURL = candidates.personal_url;
 		var gender = candidates.gender;
-		var candidate = '<p>'+name+'is a '+gender+'. See their website<a href=\"'+personalURL+'\">HERE</a></p>';
+		var photoURL = candidates.photo_url;
+		var photo = '<div class="avatar" style=\"background-image: url('+photoURL+')\"></div>';
+		var candidate = photo+'<p><a href=\"'+personalURL+'\">'+name+'</a> ('+gender+')</p>';
 		$('.content-test').append(candidate);
+		if (gender === "M") {
+			maleCount++;
+		}
+		else if (gender === "F") {
+			femaleCount++;
+		};
 
 	});//end each
 
 });//end AJAX request
+
 } //end getData
 
 
@@ -61,15 +75,10 @@ function getType() {
 
 
 function updateGender() {
-	$('.infographic p:nth-child(2)').append(male);
-	$('.infographic p:nth-child(3)').append(female);
+	$('.infographic p:nth-child(2)').append(maleCount);
+	$('.infographic p:nth-child(3)').append(femaleCount);
 }
 
-
-function updateTotal() {
-	total = myStats.total_count;
-	$('.infographic p:first-child').append(total);//to update stat for total candidates
-}
 
 
 
