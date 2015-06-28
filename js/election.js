@@ -15,7 +15,6 @@ $(document).ready(function() {
 		e.preventDefault();
 		getData();
 		updateGender();
-		alert('done!');
 
 		//displayInfo();
 	})
@@ -50,9 +49,12 @@ $.getJSON(url, params, function(data) {
 		var personalURL = candidates.personal_url;
 		var gender = candidates.gender;
 		var photoURL = candidates.photo_url;
+		var district = candidates.district_name;
+		var email = candidates.email;
+		var party = candidates.party_name;
 		var photo = '<div class="avatar" style=\"background-image: url('+photoURL+')\"></div>';
-		var candidate = photo+'<p><a href=\"'+personalURL+'\">'+name+'</a> ('+gender+')</p>';
-		$('.content-test').append(candidate);
+		var candidate = '<li>'+photo+'<div class="info"><a href=\"'+personalURL+'\">'+name+'</a><br />'+party+'</div></li>';
+		$('.list-all').append(candidate);
 		if (gender === "M") {
 			maleCount++;
 		}

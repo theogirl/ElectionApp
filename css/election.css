@@ -49,9 +49,16 @@ h1 {
 	width: 100%;
 }
 
+.content-test {
+	padding: 40px;
+}
 
-
-
+.list-all li {
+	display: inline;
+	float: left;
+	margin-right: 20px;
+	margin-bottom: 20px;
+}
 
 header {
 	text-align: center;
@@ -86,12 +93,11 @@ button:hover {
 	color: #158cba;
 }
 
-
 .avatar {
   overflow: hidden;
   width: 150px;
   height: 150px;
-  margin-bottom: 20px;
+  margin-bottom: 10px;
   padding-top: 20px;
   border-radius: 100%;
   border: 3px solid #eee;
@@ -100,6 +106,12 @@ button:hover {
   background-repeat: no-repeat;
   background-size: 100% auto;
 }
+
+.info {
+	text-align: center;
+	font-size: 0.9em;
+}
+
 
 @media only screen and (max-width: 500px) {
 	header {
