@@ -8,20 +8,30 @@ $(document).ready(function() {
 	var myData = {};
 	var myStats = '';
 
+//-----Display current date---//
+	var today = new Date();
+	var days = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
+	var weekday = days[today.getDay()];
+	var months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
+	var mm = months[today.getMonth()];
+	var dd = today.getDate();
+	var yyyy = today.getFullYear();
+	today = weekday+', '+mm+' '+dd+', '+yyyy;
+	$('#date').text(today);
+
 
 //-------EVENTS---------//
 
 	$('#btn-party').click(function(e) {  //listen for submit event
 		e.preventDefault();
-		getData();
-		updateGender();
+		getAll();
 
 		//displayInfo();
 	})
 
 //-------FUNCTIONS---------//
 
-function getData() {
+function getAll() {
 
 var url = 'https://represent.opennorth.ca/candidates/?callback=?';
 var params = {
@@ -29,6 +39,7 @@ var params = {
 	};
 
 $.getJSON(url, params, function(data) {
+	console.log(data)//just for me so I can see data object	
 
 	if (data.objects && data.objects.length > 0) {
 			myData = data.objects;
@@ -40,9 +51,8 @@ $.getJSON(url, params, function(data) {
 			alert('no data!');
 	}
 
-	console.log(myData);
-
 	$.each(data.objects, function(i, candidates) {
+
 
 		//update global variables with actual data
 		var name = candidates.name;
@@ -53,15 +63,17 @@ $.getJSON(url, params, function(data) {
 		var email = candidates.email;
 		var party = candidates.party_name;
 		var photo = '<div class="avatar" style=\"background-image: url('+photoURL+')\"></div>';
-		var candidate = '<li>'+photo+'<div class="info"><a href=\"'+personalURL+'\">'+name+'</a><br />'+party+'</div></li>';
-		$('.list-all').append(candidate);
-		if (gender === "M") {
-			maleCount++;
+		
+		if (personalURL !== "") {
+			var website = '<a href=\"'+personalURL+'\">Website</a>';
+			var candidate = '<li class="list-item">'+photo+'<div class="info">'+name+'<br />'+party+'<br />'+website+'</div></li>';
+				$('.list-all').append(candidate);
 		}
-		else if (gender === "F") {
-			femaleCount++;
+		else {
+			var candidate = '<li class="list-item">'+photo+'<div class="info">'+name+'<br />'+party+'</div></li>';
+			$('.list-all').append(candidate);
 		};
-
+		
 	});//end each
 
 });//end AJAX request
@@ -73,12 +85,6 @@ $.getJSON(url, params, function(data) {
 function getType() {
 	var type = typeof myData;
 	alert('myData is: '+type);
-}
-
-
-function updateGender() {
-	$('.infographic p:nth-child(2)').append(maleCount);
-	$('.infographic p:nth-child(3)').append(femaleCount);
 }
 
 
