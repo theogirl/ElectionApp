@@ -1,4 +1,5 @@
 $(document).ready(function() {
+	$('.candidate').hide();
 
 //------GLOBAL VARIABLES---------//
 	var total = '';
@@ -20,11 +21,14 @@ $(document).ready(function() {
 	$('#date').text(today);
 
 
+getAll();
+
+
 //-------EVENTS---------//
 
 	$('#btn-party').click(function(e) {  //listen for submit event
 		e.preventDefault();
-		getAll();
+		$('.candidate').show();
 
 		//displayInfo();
 	})
@@ -35,7 +39,7 @@ function getAll() {
 
 var url = 'https://represent.opennorth.ca/candidates/?callback=?';
 var params = {
-	  limit: 20//use limit=1000 to get full list
+	  limit: 40//use limit=1000 to get full list
 	};
 
 $.getJSON(url, params, function(data) {
@@ -46,6 +50,7 @@ $.getJSON(url, params, function(data) {
 			myStats = data.meta;
 			total = myStats.total_count;
 			$('.infographic p:first-child').append(total);//to update stat for total candidates
+			myData.sort(dynamicSort("name"));
 	}
 	else {
 			alert('no data!');
@@ -61,12 +66,28 @@ $.getJSON(url, params, function(data) {
 		var photoURL = candidates.photo_url;
 		var district = candidates.district_name;
 		var email = candidates.email;
-		var party = candidates.party_name;
 		var photo = '<div class="avatar" style=\"background-image: url('+photoURL+')\"></div>';
+		var party = candidates.party_name;
+
+		switch(party) {
+		    case "Green Party" :
+		    	party = '<span style="color: #3d9b35;">' + party +'</span>'; 
+				break;
+		    case "NDP" :
+		    	party = '<span style="color: #f58220;">' + party +'</span>'; 
+				break;
+			case "Conservative" :
+		    	party = '<span style="color: #012596;">' + party +'</span>'; 
+				break;
+			case "Liberal" :
+		    	party = '<span style="color: #d51d29;">' + party +'</span>'; 
+				break;
+		}
+
+
 		
 		if (personalURL !== "") {
-			var website = '<a href=\"'+personalURL+'\">Website</a>';
-			var candidate = '<li class="list-item">'+photo+'<div class="info">'+name+'<br />'+party+'<br />'+website+'</div></li>';
+			var candidate = '<li class="list-item">'+photo+'<div class="info"><a class="website" href=\"'+personalURL+'\">'+name+' <i class="fa fa-globe"></i></a><br />'+party+'</div></li>';
 				$('.list-all').append(candidate);
 		}
 		else {
@@ -77,16 +98,23 @@ $.getJSON(url, params, function(data) {
 	});//end each
 
 });//end AJAX request
-
+//$('.candidate').append('<p>Show more results...</p>	');
 } //end getData
 
 
-//this was just for testing purposes...
-function getType() {
-	var type = typeof myData;
-	alert('myData is: '+type);
-}
 
+//---------DYNAMIC SORTING FUNCTION-------//
+function dynamicSort(property) {
+    var sortOrder = 1;
+    if(property[0] === "-") {
+        sortOrder = -1;
+        property = property.substr(1);
+    }
+    return function (a,b) {
+        var result = (a[property] < b[property]) ? -1 : (a[property] > b[property]) ? 1 : 0;
+        return result * sortOrder;
+    }
+}
 
 
 
